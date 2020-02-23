@@ -1,0 +1,80 @@
+#! /usr/bin/env ruby
+# coding: utf-8
+
+#
+# Bluetooth AVRCP wrapper for cmus.
+#
+#   Copyright (C) 2020 Hiroshi Kuwagata <kgt9221@gmail.com>
+#
+
+require 'optparse'
+require 'pathname'
+require 'pp'
+
+#
+# パッケージ内で参照する定数の定義
+#
+
+TRADITIONAL_NAME = "Bluetooth AVRCP wrapper for cmus"
+APP_NAME         = "cmus-bt"
+
+BASE_DIR         = Pathname.new(__FILE__).expand_path.dirname.parent
+LIB_DIR          = BASE_DIR + "lib"
+APP_LIB_DIR      = LIB_DIR + APP_NAME
+
+#
+# ライブラリロードパスの差し込み
+#
+
+$LOAD_PATH.unshift(LIB_DIR)
+
+#
+# アプリケーション本体の読み込み
+#
+
+require "#{APP_LIB_DIR + "version"}"
+require "#{APP_LIB_DIR + "device"}"
+require "#{APP_LIB_DIR + "player"}"
+require "#{APP_LIB_DIR + "main"}"
+
+#
+# コマンドラインオプションのパース
+#
+
+OptionParser.new { |opt|
+  opt.banner << " {NAME|ADDRESS}"
+  opt.version = CMusBt::VERSION
+
+  log = {
+    :file  => "/dev/null",
+    :level => :INFO
+  }
+
+  opt.on("-l", "--list-available-device") { |name|
+    $mode = :list_device
+  }
+
+  opt.on("--log-file=FILE") { |val|
+    log[:file]  = val
+  }
+
+  opt.on("--log-level=FLEVEL") { |val|
+    log[:level] = val.upcase.to_sym
+  }
+
+  opt.parse!(ARGV)
+
+
+  logfile = File.open(log[:file], "a")
+  logfile.sync = true
+
+  $mode ||= :run_app
+  $logger = Logger.new(log[:file],
+                       :level => log[:level],
+                       :datetime_format => "%Y-%m-%dT%H:%M:%S")
+}
+
+#
+# アプリケーションの起動
+#
+CMusBt::App.start(ARGV[0])
