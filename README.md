@@ -1,9 +1,11 @@
 # cmus-bt
 Bluetooth AVRCP wrapper for [cmus](https://cmus.github.io/).
 
+This is a wrapper script for manipulating an audio player "cmus" using any AVRCP-supported Bluetooth device. This script requires an environment that  bluez running on the Linux environment. and devices used as remote controls must be paired and connected in advance.
+
 ## Usage
 ```
-cmus-bt [options] {NAME|DEVICE-ADDRESS}
+cmus-bt [options] {DEVICE-NAME|DEVICE-ADDRESS}
 
 options:
     -l, --list-available-device
@@ -17,6 +19,11 @@ options:
   <dd>show available device list</dd>
 </dl>
 
+### argument
+<dl>
+  <dt>DEVICE-NAME or DEVICE-ADDRESS</dt>
+  <dd>Specify the name or address of the device to use as the remote controler. The list of possible devices can be viewed with the -l option.</dd>
+</dl>
 
 ## Contributing
 Bug reports and pull requests are welcome on GitHub at https://github.com/kwgt/cmus-bt.
