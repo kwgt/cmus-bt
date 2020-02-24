@@ -38,7 +38,7 @@ module CMusBt
 
       def status
         ret = catch { |tag|
-          query.each_line {|l| throw tag, $1.to_sym if /^status = (.+)/ =~ l}
+          query.each_line {|l| throw tag, $1.to_sym if /^status (.+)/ =~ l}
         }
 
         return ret
@@ -102,14 +102,12 @@ module CMusBt
         size = [0, 0, 0, 0, 0].pack(EVENT_STRUCTURE).bytesize
 
         until io.eof?
-          raw = io.read(size)
-          tmp = raw.unpack(EVENT_STRUCTURE)
-
+          tmp  = io.read(size).unpack(EVENT_STRUCTURE)
           type = tmp[2]
           code = tmp[3]
           val  = tmp[4]
 
-          $logger.debug("push #{type}, #{code}, #{val}")
+          $logger.debug("input #{type}, #{code}, #{val}")
 
           next if type != 1 or val != 0
 
