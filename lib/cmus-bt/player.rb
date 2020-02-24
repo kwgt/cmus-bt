@@ -15,10 +15,10 @@ module CMusBt
     EVENT_STRUCTURE = "l!l!S!S!i!"
 
     FUNC_TABLE      = {
-      200 => :do_play,  # KEY_PLAYCD
-      201 => :do_pause, # KEY_PAUSECD
-      163 => :do_next,  # KEY_NEXTSONG
-      165 => :do_prev,  # KEY_PREVIOUSSONG
+      200 => :on_play,  # KEY_PLAYCD
+      201 => :on_pause, # KEY_PAUSECD
+      163 => :on_next,  # KEY_NEXTSONG
+      165 => :on_prev,  # KEY_PREVIOUSSONG
     }
 
     class << self
@@ -68,7 +68,7 @@ module CMusBt
       end
       private :read_meta
 
-      def do_play
+      def on_play
         if status == :playing
           system("cmus-remote --pause")
           $logger.info("PAUSE")
@@ -77,25 +77,25 @@ module CMusBt
           $logger.info("PLAY")
         end
       end
-      private :do_play
+      private :on_play
 
-      def do_pause
+      def on_pause
         system("cmus-remote --pause")
         $logger.info("PAUSE")
       end
-      private :do_pause
+      private :on_pause
 
-      def do_next
+      def on_next
         system("cmus-remote --next")
         $logger.info("NEXT")
       end
-      private :do_next
+      private :on_next
 
-      def do_prev
+      def on_prev
         system("cmus-remote --prev")
         $logger.info("PREV")
       end
-      private :do_prev
+      private :on_prev
 
       def daemon(info)
         io   = File.open(info[:dev_file], "rb")

@@ -34,17 +34,15 @@ module CMusBt
         private :root
 
         def objman
-          @objman ||=
-              root["org.freedesktop.DBus.ObjectManager"].GetManagedObjects
-
-          return @objman
+          return @objman ||= root["org.freedesktop.DBus.ObjectManager"]
         end
         private :objman
 
         def list
           ret = []
+          dir = objman.GetManagedObjects()
 
-          objman.each { |path, hash|
+          dir.each { |path, hash|
             next if not hash.keys.include?("org.bluez.Device1")
 
             iface = hash["org.bluez.Device1"]

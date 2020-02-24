@@ -37,7 +37,7 @@ module CMusBt
         list = availables()
        
         if list.empty?
-          print("Available device is not exist.")
+          print("Available device is not exist.\n")
 
         else
           list.each { |info| 
@@ -64,10 +64,12 @@ module CMusBt
 
         thread = Thread.fork {Player.daemon(info)}
         status = system("cmus")
+        raise("execute cmus failed.") if not status.success?
 
-        thread.raise
+      ensure
+        thread&.raise
+        thread&.join
         $logger.info("exit #{APP_NAME}")
-        exit(status)
       end
       private :run_app
 
@@ -82,6 +84,10 @@ module CMusBt
         else
           raise("Not implement yet")
         end
+
+      rescue Exception => e
+        STDERR.print("#{e.message}\n")
+        exit(1)
       end
     end
   end
