@@ -1,7 +1,7 @@
 # cmus-bt
 Bluetooth AVRCP wrapper for [cmus](https://cmus.github.io/).
 
-This is a wrapper script for manipulating an audio player "cmus" using any AVRCP-supported Bluetooth device. This script requires an environment that  bluez running on the Linux environment. and devices used as remote controls must be paired and connected in advance.
+This is a wrapper script for manipulating an audio player "cmus" using any AVRCP-supported Bluetooth device. This script requires an environment that bluez running on the Linux. and devices used as remote controller must be paired and connected in advance.
 
 ## Usage
 ```
