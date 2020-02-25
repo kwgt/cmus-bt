@@ -22,19 +22,19 @@ module CMusBt
         end
 
         def put_name(dst, s)
-          dst[:name] = (/^Name=\"(.*)\"$/ =~ s)? $1: nil
+          dst[:name]  = (/^Name=\"(.*)\"$/ =~ s) && $1
         end
 
         def put_phys(dst, s)
-          dst[:phys] = (/^Phys=(.*)$/ =~ s)? $1: nil
+          dst[:phys]  = (/^Phys=(.*)$/ =~ s) && $1
         end
 
         def put_sysfs(dst, s)
-          dst[:sysfs] = (/^Sysfs=(.*)$/ =~ s)? $1: nil
+          dst[:sysfs] = (/^Sysfs=(.*)$/ =~ s) && $1
         end
 
         def put_uniq(dst, s)
-          dst[:uniq] = (/^Sysfs=(.*)$/ =~ s)? $1: nil
+          dst[:uniq]  = (/^Uniq=(.*)$/ =~ s) && $1
         end
 
         def put_handlers(dst, s)
@@ -52,7 +52,7 @@ module CMusBt
         end
 
         def put_bitmap(dst, s)
-          h = (dst[:bitmap] || {})
+          h = (dst[:bitmap] ||= {})
 
           if /(.+)=(.+)/ =~ s
             h[$1] = $2
