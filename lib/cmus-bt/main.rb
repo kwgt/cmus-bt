@@ -64,7 +64,7 @@ module CMusBt
 
         thread = Thread.fork {Player.daemon(info)}
         status = system("cmus")
-        raise("execute cmus failed.") if not status.success?
+        raise("execute cmus failed (exit status #{$?.to_i}.") if not status
 
       ensure
         thread&.raise
